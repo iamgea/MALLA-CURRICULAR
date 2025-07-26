@@ -1,1 +1,175 @@
+/* Paleta Pink temática */
+:root {
+  --pink-bg: #ffe3ee;
+  --pink-light: #fcb8d2;
+  --pink-medium: #f772a1;
+  --pink-dark: #d72660;
+  --pink-accent: #ff61a6;
+  --approved: #b5f5e8;
+  --blocked: #ffd0d0;
+  --white: #fff;
+  --gray: #444;
+}
 
+/* Reset & base */
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: var(--pink-bg);
+  color: var(--gray);
+}
+header, footer {
+  text-align: center;
+  background: var(--pink-light);
+  padding: 1.2em 0;
+  margin-bottom: 0.5em;
+  border-bottom: 2px solid var(--pink-accent);
+}
+footer {
+  border-top: 2px solid var(--pink-accent);
+  border-bottom: none;
+  margin-top: 1.5em;
+}
+
+/* Malla grid */
+.malla-container {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 1.2em;
+  padding: 0 1em 2em 1em;
+  scroll-behavior: smooth;
+}
+.trimestre-col {
+  background: var(--white);
+  border-radius: 1.2em;
+  box-shadow: 0 4px 16px 0 #f772a1a8;
+  min-width: 220px;
+  padding: 1em 0.5em 1em 0.5em;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.trimestre-title {
+  font-size: 1.18em;
+  font-weight: bold;
+  color: var(--pink-dark);
+  margin-bottom: 0.7em;
+  letter-spacing: 0.5px;
+}
+.ramo {
+  background: var(--pink-light);
+  color: var(--gray);
+  border-radius: 0.8em;
+  box-shadow: 0 2px 8px 0 #fcb8d2bb;
+  padding: 0.72em 0.5em;
+  margin-bottom: 0.8em;
+  width: 90%;
+  text-align: center;
+  font-size: 1em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, text-decoration 0.2s;
+  border: 2px solid var(--pink-accent);
+  user-select: none;
+  position: relative;
+}
+.ramo.aprobado {
+  background: var(--approved);
+  color: var(--pink-dark);
+  text-decoration: line-through;
+  border-color: var(--pink-medium);
+  opacity: 0.7;
+}
+.ramo.bloqueado {
+  background: var(--blocked);
+  color: #a64c4c;
+  cursor: not-allowed;
+  border-color: #ff6161;
+  opacity: 0.7;
+}
+.ramo .requisito-icon {
+  font-size: 0.9em;
+  color: var(--pink-dark);
+  position: absolute;
+  top: 8px;
+  right: 12px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .malla-container {
+    gap: 0.7em;
+  }
+  .trimestre-col {
+    min-width: 170px;
+    padding: 0.7em 0.3em;
+  }
+  .ramo {
+    font-size: 0.95em;
+    padding: 0.58em 0.2em;
+  }
+}
+@media (max-width: 600px) {
+  .malla-container {
+    gap: 0.2em;
+    padding: 0 0.2em 1em 0.2em;
+  }
+  .trimestre-col {
+    min-width: 130px;
+    padding: 0.5em 0.1em;
+  }
+  .ramo {
+    font-size: 0.87em;
+    padding: 0.38em 0.1em;
+  }
+  header, footer {
+    padding: 0.7em 0;
+    font-size: 0.97em;
+  }
+}
+
+/* Modal styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 10;
+  left: 0; top: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(255, 97, 166, 0.17);
+  justify-content: center;
+  align-items: center;
+}
+.modal-content {
+  background: var(--white);
+  color: var(--pink-dark);
+  padding: 2em 1.5em;
+  border-radius: 1em;
+  box-shadow: 0 8px 32px #d7266090;
+  max-width: 90vw;
+  min-width: 270px;
+  font-size: 1.07em;
+  position: relative;
+  text-align: center;
+}
+.close {
+  position: absolute;
+  right: 20px; top: 14px;
+  font-size: 2em;
+  color: var(--pink-dark);
+  cursor: pointer;
+}
+
+/* Custom scrollbar for pink vibe */
+.malla-container::-webkit-scrollbar {
+  height: 8px;
+  background: var(--pink-bg);
+}
+.malla-container::-webkit-scrollbar-thumb {
+  background: var(--pink-accent);
+  border-radius: 8px;
+}
