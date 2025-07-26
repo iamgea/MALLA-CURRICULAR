@@ -4,7 +4,7 @@
 
 const malla = [
   {
-    trimestre: 'Trimestre 1',
+    nombre: "Trimestre 1",
     ramos: [
       "Matemática General",
       "Introducción a las Ciencias Sociales",
@@ -15,7 +15,7 @@ const malla = [
     ]
   },
   {
-    trimestre: 'Trimestre 2',
+    nombre: "Trimestre 2",
     ramos: [
       "Matemática Financiera",
       "Contabilidad Básica",
@@ -26,7 +26,7 @@ const malla = [
     ]
   },
   {
-    trimestre: 'Trimestre 3',
+    nombre: "Trimestre 3",
     ramos: [
       "Valores y Cultura Ciudadana",
       "Contabilidad General",
@@ -37,7 +37,7 @@ const malla = [
     ]
   },
   {
-    trimestre: 'Trimestre 4',
+    nombre: "Trimestre 4",
     ramos: [
       "Electiva I",
       "Contabilidad Superior",
@@ -48,7 +48,7 @@ const malla = [
     ]
   },
   {
-    trimestre: 'Trimestre 5',
+    nombre: "Trimestre 5",
     ramos: [
       "Prácticas Profesionales I",
       "Contabilidad Avanzada",
@@ -59,7 +59,7 @@ const malla = [
     ]
   },
   {
-    trimestre: 'Trimestre 6',
+    nombre: "Trimestre 6",
     ramos: [
       "Instituciones Financieras",
       "Análisis de Estados Financieros",
@@ -70,7 +70,7 @@ const malla = [
     ]
   },
   {
-    trimestre: 'Trimestre 7',
+    nombre: "Trimestre 7",
     ramos: [
       "Electiva II",
       "Gerencia Financiera",
@@ -80,7 +80,7 @@ const malla = [
     ]
   },
   {
-    trimestre: 'Trimestre 8',
+    nombre: "Trimestre 8",
     ramos: [
       "Liderazgo Organizacional",
       "Presupuesto",
@@ -91,7 +91,7 @@ const malla = [
     ]
   },
   {
-    trimestre: 'Trimestre 9',
+    nombre: "Trimestre 9",
     ramos: [
       "Electiva III",
       "Fundamentos de Auditoría",
@@ -101,7 +101,7 @@ const malla = [
     ]
   },
   {
-    trimestre: 'Trimestre 10',
+    nombre: "Trimestre 10",
     ramos: [
       "Prácticas Profesionales II",
       "Auditoría Financiera",
@@ -111,7 +111,7 @@ const malla = [
     ]
   },
   {
-    trimestre: 'Trimestre 11',
+    nombre: "Trimestre 11",
     ramos: [
       "Ética Aplicada y Política",
       "Laboratorio de Auditoría",
@@ -121,7 +121,7 @@ const malla = [
     ]
   },
   {
-    trimestre: 'Trimestre 12',
+    nombre: "Trimestre 12",
     ramos: [
       "Prácticas Profesionales III",
       "Trabajo Especial de Titulación II"
@@ -129,7 +129,7 @@ const malla = [
   }
 ];
 
-// Requisitos de cada ramo (nombre exacto, array de nombres requeridos)
+// Requisitos por materia
 const requisitos = {
   "Matemática Financiera": ["Matemática General"],
   "Ofimática": ["Computación Básica"],
@@ -153,11 +153,6 @@ const requisitos = {
   "Trabajo Especial de Titulación II": ["Trabajo Especial de Titulación I"]
 };
 
-// ==============================
-// Funciones utilitarias
-// ==============================
-
-// Estado de aprobación de ramos (localStorage)
 function getAprobados() {
   const data = localStorage.getItem("mallaAprobados");
   return data ? JSON.parse(data) : [];
@@ -166,18 +161,14 @@ function setAprobados(aprobados) {
   localStorage.setItem("mallaAprobados", JSON.stringify(aprobados));
 }
 
-// ==============================
-// Renderizado de la malla
-// ==============================
-
+// Renderiza la malla en pantalla
 function crearMalla() {
   const cont = document.getElementById('malla-container');
-  cont.innerHTML = ""; // Limpia antes de renderizar
+  cont.innerHTML = "";
 
   const aprobados = getAprobados();
 
   malla.forEach((trimestreObj, idx) => {
-    // Columna de trimestre
     const col = document.createElement('div');
     col.className = "trimestre-col";
     col.setAttribute('data-trimestre-index', idx);
@@ -185,7 +176,7 @@ function crearMalla() {
     // Título del trimestre
     const titulo = document.createElement('div');
     titulo.className = "trimestre-title";
-    titulo.textContent = trimestreObj.trimestre;
+    titulo.textContent = trimestreObj.nombre;
     col.appendChild(titulo);
 
     // Lista de ramos
@@ -204,16 +195,15 @@ function crearMalla() {
         divRamo.appendChild(icon);
       }
 
-      // Estado: aprobado
+      // Estado aprobado/bloqueado
       if (aprobados.includes(ramo)) {
         divRamo.classList.add("aprobado");
       } else if (requisitos[ramo] && !requisitos[ramo].every(req => aprobados.includes(req))) {
-        // Estado: bloqueado (no cumple requisitos)
         divRamo.classList.add("bloqueado");
       }
 
-      // Evento click
-      divRamo.addEventListener('click', function (e) {
+      // Evento de click
+      divRamo.addEventListener('click', function () {
         manejarClickRamo(ramo, divRamo);
       });
 
@@ -224,10 +214,7 @@ function crearMalla() {
   });
 }
 
-// ==============================
-// Lógica de aprobación de ramos
-// ==============================
-
+// Lógica de aprobación/desaprobación
 function manejarClickRamo(ramo, el) {
   const aprobados = getAprobados();
 
@@ -239,7 +226,7 @@ function manejarClickRamo(ramo, el) {
     return;
   }
 
-  // Si tiene requisitos, verifica si están aprobados
+  // Si tiene requisitos y no están cumplidos
   if (requisitos[ramo]) {
     const noAprobados = requisitos[ramo].filter(req => !aprobados.includes(req));
     if (noAprobados.length > 0) {
@@ -250,16 +237,13 @@ function manejarClickRamo(ramo, el) {
     }
   }
 
-  // Marcar como aprobado
+  // Marca como aprobado
   aprobados.push(ramo);
   setAprobados(aprobados);
   crearMalla();
 }
 
-// ==============================
 // Modal para requisitos no cumplidos
-// ==============================
-
 function mostrarModal(mensaje) {
   const modal = document.getElementById('modal');
   const msg = document.getElementById('modal-message');
@@ -273,6 +257,10 @@ document.getElementById('close-modal').onclick = cerrarModal;
 window.onclick = function(event) {
   const modal = document.getElementById('modal');
   if (event.target === modal) cerrarModal();
+};
+
+window.onload = function () {
+  crearMalla();
 };
 
 // ==============================
